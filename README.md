@@ -1,8 +1,13 @@
 # FGcronos
-<img src="src.png"> </br>
 ### Created by Yenot-Hack
-
-a payload automation tool for android, captures handshake and scans the submissive network 
+<img src="src.png"> </br>
+<p align="center">
+<img src="https://img.shields.io/badge/Created%20by-Yenot-blue?style=for-the-badge&logo=github"> <img src="https://img.shields.io/badge/Version-1.1-green"> 
+</p>
+</br>
+<p>this script automates tasks, has 4 options, scans the network, mounts apk payloads on the apache server and in ngrok,
+ captures the handshake of a victim wifi network to crack the password, raises a local server (apache) for attacks on the local network
+ and the ngrok for attacks outside the lan network, will acquire the option to modify the DNS's of the local server for Man In The Middle attacks.</p>
 > Wifi-Cracker </br>
 > Scan network </br>
 > Mount payloads on apache server and outside lan </br>
@@ -42,3 +47,5 @@ to run the tool just write the command fgchronos
 
 ### Dependencies
 >- dependencies are installed as soon as the installer is run 
+
+###### This script is not supported for termux, yet
