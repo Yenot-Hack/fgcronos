@@ -68,4 +68,4 @@ echo "Installing and configuring..."
 sleep 1
 clear
 echo "Done ✅ "
-printf "To use run command: fgcronos "
+echo -e "\nTo use run command: fgcronos "
