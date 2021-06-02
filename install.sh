@@ -58,7 +58,9 @@ function dependencies() {
             fi
       }
       check_bin
-      rm -rf $PWD/*
+      cd ..
+      rm -r fgcronos
+      cd
 }
 clear
 dependencies
@@ -66,3 +68,4 @@ echo "Installing and configuring..."
 sleep 1
 clear
 echo "Done ✅ "
+printf "To use run command: fgcronos "
