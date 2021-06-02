@@ -17,32 +17,32 @@
 
 - Clone the repository
 ```
-$ 𝚐𝚒𝚝 𝚌𝚕𝚘𝚗𝚎 𝚑𝚝𝚝𝚙𝚜://𝚐𝚒𝚝𝚑𝚞𝚋.𝚌𝚘𝚖/𝚈𝚎𝚗𝚘𝚝-𝙷𝚊𝚌𝚔/𝚏𝚐𝚌𝚛𝚘𝚗𝚘𝚜
+$ git clone https://github.com/Yenot-Hack/fgcronos.git
 ```
 </br>
 
 - Enter the repository
 ```
-$ 𝚌𝚍 𝚏𝚐𝚌𝚛𝚘𝚗𝚘𝚜
+$ cd fgcronos
 ```
 </br>
 
 - Give execution permissions
 ```
-$ 𝚌𝚑𝚖𝚘𝚍 +𝚡 $𝙿𝚆𝙳/*
+$ chmod +x $PWD/*
 ```
 </br>
 
 - Run the installer
 ```
-$ ./𝚒𝚗𝚜𝚝𝚊𝚕𝚕.𝚜𝚑
+$ ./install.sh
 ```
 </br>
 
 Usage:
 to run the tool just write the command fgchronos 
 ```
-𝚏𝚐𝚌𝚛𝚘𝚗𝚘𝚜
+fgcronos
 ```
 
 ### Dependencies
