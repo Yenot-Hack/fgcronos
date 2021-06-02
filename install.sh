@@ -61,8 +61,8 @@ function dependencies() {
       rm -rf $PWD/*
 }
 clear
-#dependencies
+dependencies
 echo "Installing and configuring..."
 sleep 1
 clear
-echo "Done"
+echo "Done ✅ "
